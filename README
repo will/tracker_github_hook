@@ -1,3 +1,10 @@
+This fork only adds a comment to the story linking to the commit on github
+
+The format is [#1234] instead of [Story1234]
+
+Original readme:
+------
+
 This app is a small server to serve as a GitHub Post-Receive hook to add 
 comments, and update state in Pivotal Tracker, similar to say the Lighthouse
 service integration.
