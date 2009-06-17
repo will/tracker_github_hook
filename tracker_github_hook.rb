@@ -63,7 +63,7 @@ helpers do
 
       # post comment to the story
       RestClient.post(create_api_url(tracker_info[:project_id], story_id, '/notes'),
-                      "<note><text>(from [#{commit['id']}]) #{message}</text></note>", 
+                      "<note><text>([#{commit['url']}])\n\n#{message}</text></note>", 
                       tracker_api_headers(tracker_info[:api_token])) 
     end
   end
