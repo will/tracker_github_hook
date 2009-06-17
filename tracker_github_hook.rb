@@ -64,17 +64,7 @@ helpers do
       # post comment to the story
       RestClient.post(create_api_url(tracker_info[:project_id], story_id, '/notes'),
                       "<note><text>(from [#{commit['id']}]) #{message}</text></note>", 
-                      tracker_api_headers(tracker_info[:api_token]))
-    
-      # See if we have a state change
-      state = tracker_trigger[2].match(/.*state:(\s?\w+).*/)
-      if state
-        state = state[1].strip
-
-        RestClient.put(create_api_url(tracker_info[:project_id], story_id), 
-                       "<story><current_state>#{state}</current_state></story>", 
-                       tracker_api_headers(tracker_info[:api_token]))
-      end     
+                      tracker_api_headers(tracker_info[:api_token])) 
     end
   end
 
