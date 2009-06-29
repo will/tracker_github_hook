@@ -57,7 +57,7 @@ helpers do
 
     # see if there is a Tracker story trigger, and if so, get story ID
     tracker_trigger = message.match(/\[#(\d+)(.*)\]/)
-    if tracker_trigger
+    if tracker_trigger & commit['ref'] =~ /master/
       @num_commits += 1
       story_id = tracker_trigger[1]
 
