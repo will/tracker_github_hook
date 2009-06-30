@@ -39,6 +39,7 @@ end
 post '/' do
   @num_commits = 0
   push = JSON.parse(params[:payload])
+  return "not master" unless push['ref'] =~ /master/
   tracker_info = PROJECTS[push['repository']['url']]
   raise "GitHub Webook triggerd for repo: #{push['repository']['url']}; no matching github_url in config.yml" if tracker_info == nil
   push['commits'].each { |commit| process_commit(tracker_info, commit) }
@@ -57,13 +58,13 @@ helpers do
 
     # see if there is a Tracker story trigger, and if so, get story ID
     tracker_trigger = message.match(/\[#(\d+)(.*)\]/)
-    if tracker_trigger & commit['ref'] =~ /master/
+    if tracker_trigger
       @num_commits += 1
       story_id = tracker_trigger[1]
 
       # post comment to the story
       RestClient.post(create_api_url(tracker_info[:project_id], story_id, '/notes'),
-                      "<note><text>#{commit['url']}\n\n#{message}</text></note>", 
+                      "<note><text>#{message}\n\n#{commit['url']}</text></note>", 
                       tracker_api_headers(tracker_info[:api_token])) 
     end
   end
